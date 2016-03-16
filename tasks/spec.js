@@ -1,10 +1,7 @@
 const gulp = require('gulp');
-const babel = require("gulp-babel");
-const jasmineBrowser = require('gulp-jasmine-browser');
- 
+const jasmine = require('gulp-jasmine-phantom');
+
 gulp.task("spec", () => {
   return gulp.src(['src/**/*.js', 'spec/**/*_spec.js'])
-    .pipe(babel())
-    .pipe(jasmineBrowser.specRunner({console: true}))
-    .pipe(jasmineBrowser.headless());
+    .pipe(jasmine());
 });
