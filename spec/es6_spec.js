@@ -40,6 +40,54 @@ describe("es6", function() {
       expect(f.next()).toEqual({value:3, done:false});
       expect(f.next()).toEqual({value:undefined, done:true});
     });
-
   });
+
+  describe("enhance string with `", function() {
+    it("should inject variables and execute functions in a string", function() {
+      let user = {name: "Heaton", age: 18};
+      expect(`My name is ${user.name}, I'm ${user.age} years old.`).toEqual("My name is Heaton, I'm 18 years old.");
+      function add(a, b) {
+        return a + b;
+      }
+      expect(`1+2=${add(1, 2)}`).toEqual("1+2=3");
+    });
+
+    it("can be used in multiple lines", function() {
+      expect(`Be careful!
+      There is a bear`).toContain("\n");
+    });
+  });
+
+  describe("arguments", function() {
+    it("can be set by a default value", function() {
+      function increase(x, s=1) {
+        return x + s;
+      }
+      expect(increase(1)).toBe(2);
+      expect(increase(1, 2)).toBe(3);
+    });
+
+    it("can be used as rest arguments", function() {
+      function containsAll(haystack, ...needles) {
+        for (var needle of needles) {
+          if (haystack.indexOf(needle) === -1) {
+            return false;
+          } }
+        return true;
+      }
+      expect(containsAll("heaton", "h", "ton")).toBeTruthy();
+      expect(containsAll("heaton")).toBeTruthy();
+      expect(containsAll("heaton", "b", "ton")).toBeFalsy();
+    });
+
+    it("can be passed in a spread way", function() {
+      function increase(x, y, z) {
+        return x + y + z;
+      }
+      let ar = [9, 8 ,7];
+      expect(increase(...[1, 2, 3])).toBe(6);
+      expect(increase(...ar)).toBe(24);
+    });
+  });
+
 });
