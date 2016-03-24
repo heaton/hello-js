@@ -17,10 +17,10 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.2.0",
+    "browserify-istanbul": "^2.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "gulp-jasmine-browser": "^1.0.1",
     "gulp-jasmine-phantom": "^3.0.0",
     "gulp-task-listing": "^1.0.1",
     "gulp-watch": "^4.3.5",
@@ -35,8 +35,5 @@
     "phantomjs-prebuilt": "^2.1.6",
     "require-dir": "^0.3.0",
     "watchify": "^3.7.0"
-  },
-  "dependencies": {
-    "jasmine": "^2.4.1"
   }
 }

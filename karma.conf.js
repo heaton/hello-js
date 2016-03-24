@@ -1,3 +1,5 @@
+var istanbul = require('browserify-istanbul');
+
 module.exports = function(config) {
   config.set({
     files: [
@@ -6,6 +8,7 @@ module.exports = function(config) {
     ],
     frameworks: ['browserify', 'jasmine'],
     preprocessors: {
+      'src/**/*.js': ['browserify'],
       'spec/**/*_spec.js': ['browserify']
     },
     //browsers: ['PhantomJS'],
@@ -17,14 +20,18 @@ module.exports = function(config) {
           type: 'text-summary'
         },
         {
-          type: 'html',
+          type: 'text',
           dir: 'coverage'
         }
       ]
     },
     browserify: {
       debug: true,
-      transform: ['babelify']
+      transform: [['babelify', {
+        ignore: /node_modules/
+      }], istanbul({
+        ignore: ['**/spec/**/*_spec.js', '**/node_modules/**']
+      })]
     }
   })
 };
