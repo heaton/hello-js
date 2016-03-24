@@ -181,7 +181,7 @@ describe("es6", function() {
       expect(m.size).toBe(2);
     });
 
-    it("Set", function () {
+    it("Set", () => {
       let s = new Set();
       s.add("sandwich");
       s.add("burger");
