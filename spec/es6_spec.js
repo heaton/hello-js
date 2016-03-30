@@ -230,4 +230,27 @@ describe("es6", function() {
       expect(s.size).toBe(2);
     });
   });
+  
+  // Babel does not support
+  // describe("Proxy", function () {
+  //   it("try", function () {
+  //     let g = 0, s = 0;
+  //     var obj = new Proxy({}, {
+  //       get: function (target, key, receiver) {
+  //         g++;
+  //         return Reflect.get(target, key, receiver);
+  //       },
+  //       set: function (target, key, value, receiver) {
+  //         s++;
+  //         return Reflect.set(target, key, value, receiver);
+  //       }
+  //     });
+  //     obj.count = 0;
+  //     expect(s).toBe(1);
+  //     ++obj.count;
+  //     expect(s).toBe(2);
+  //     expect(g).toBe(1);
+  //   });
+  // });
+  
 });
