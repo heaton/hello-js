@@ -42,6 +42,47 @@ describe("es6", function() {
       expect(f.next()).toEqual({value:3, done:false});
       expect(f.next()).toEqual({value:undefined, done:true});
     });
+    it("should stop after a return", function() {
+      function* process(start) {
+        let p1 = yield start;
+        let p2 = yield start + p1;
+        yield p1 + p2;
+      }
+      let f = process(1);
+      expect(f.next(2)).toEqual({value:1, done:false});
+      expect(f.return(3)).toEqual({value:3, done:true});
+      expect(f.next()).toEqual({value:undefined, done:true});
+    });
+    it("should stop after a throw", function() {
+      let a = null;
+      function* process(start) {
+        try {
+          let p1 = yield start;
+          let p2 = yield start + p1;
+          yield p1 + p2;
+        } catch(e) {
+          return e;
+        } finally {
+          a = "done";
+        }
+      }
+      let f = process(1);
+      expect(f.next(2)).toEqual({value:1, done:false});
+      expect(f.throw("something wrong")).toEqual({value:"something wrong", done:true});
+      expect(a).toEqual("done");
+      expect(f.next()).toEqual({value:undefined, done:true});
+    });
+    it("should yield with iterators", function() {
+      function* concat(iter1, iter2) {
+        yield* iter1;
+        yield* iter2;
+      }
+      let f = concat([1, 2], ["ha"]);
+      expect(f.next()).toEqual({value:1, done:false});
+      expect(f.next()).toEqual({value:2, done:false});
+      expect(f.next()).toEqual({value:"ha", done:false});
+      expect(f.next()).toEqual({value:undefined, done:true});
+    });
   });
 
   describe("Template strings", function() {
