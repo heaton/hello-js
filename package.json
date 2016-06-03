@@ -35,5 +35,17 @@
     "phantomjs-prebuilt": "^2.1.6",
     "require-dir": "^0.3.0",
     "watchify": "^3.7.0"
+  },
+  "dependencies": {
+    "babel-core": "^6.9.1",
+    "babel-plugin-transform-object-assign": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-polyfill": "^6.9.1",
+    "babelify": "^7.3.0",
+    "browserify": "^13.0.1",
+    "gulp-watch": "^4.3.6",
+    "istanbul": "git://github.com/gotwarlost/istanbul.git#source-map",
+    "karma-browserify": "^5.0.5",
+    "phantomjs-prebuilt": "^2.1.7"
   }
 }
