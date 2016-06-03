@@ -1,4 +1,4 @@
-import ES6 from '../src/es6';
+import /* default as */ES6 from '../src/es6';
 
 describe("A suite", function() {
   it("contains spec with an expectation", function() {

@@ -1,5 +1,5 @@
-describe("es6", function() {
-  describe("for expression", function() {
+describe("es6", function () {
+  describe("for expression", function () {
     it("should get item from an array", function () {
       let l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       var sum = 0;
@@ -29,88 +29,95 @@ describe("es6", function() {
     });
   });
 
-  describe("generators", function() {
-    it("should yield several times of a function", function() {
+  describe("generators", function () {
+    it("should yield several times of a function", function () {
       function* quips(start) {
         yield start;
         yield start + 1;
         yield start + 2;
       }
+
       let f = quips(1);
-      expect(f.next()).toEqual({value:1, done:false});
-      expect(f.next()).toEqual({value:2, done:false});
-      expect(f.next()).toEqual({value:3, done:false});
-      expect(f.next()).toEqual({value:undefined, done:true});
+      expect(f.next()).toEqual({value: 1, done: false});
+      expect(f.next()).toEqual({value: 2, done: false});
+      expect(f.next()).toEqual({value: 3, done: false});
+      expect(f.next()).toEqual({value: undefined, done: true});
     });
-    it("should stop after a return", function() {
+    it("should stop after a return", function () {
       function* process(start) {
         let p1 = yield start;
         let p2 = yield start + p1;
         yield p1 + p2;
       }
+
       let f = process(1);
-      expect(f.next(2)).toEqual({value:1, done:false});
-      expect(f.return(3)).toEqual({value:3, done:true});
-      expect(f.next()).toEqual({value:undefined, done:true});
+      expect(f.next(2)).toEqual({value: 1, done: false});
+      expect(f.return(3)).toEqual({value: 3, done: true});
+      expect(f.next()).toEqual({value: undefined, done: true});
     });
-    it("should stop after a throw", function() {
+    it("should stop after a throw", function () {
       let a = null;
+
       function* process(start) {
         try {
           let p1 = yield start;
           let p2 = yield start + p1;
           yield p1 + p2;
-        } catch(e) {
+        } catch (e) {
           return e;
         } finally {
           a = "done";
         }
       }
+
       let f = process(1);
-      expect(f.next(2)).toEqual({value:1, done:false});
-      expect(f.throw("something wrong")).toEqual({value:"something wrong", done:true});
+      expect(f.next(2)).toEqual({value: 1, done: false});
+      expect(f.throw("something wrong")).toEqual({value: "something wrong", done: true});
       expect(a).toEqual("done");
-      expect(f.next()).toEqual({value:undefined, done:true});
+      expect(f.next()).toEqual({value: undefined, done: true});
     });
-    it("should yield with iterators", function() {
+    it("should yield with iterators", function () {
       function* concat(iter1, iter2) {
         yield* iter1;
         yield* iter2;
       }
+
       let f = concat([1, 2], ["ha"]);
-      expect(f.next()).toEqual({value:1, done:false});
-      expect(f.next()).toEqual({value:2, done:false});
-      expect(f.next()).toEqual({value:"ha", done:false});
-      expect(f.next()).toEqual({value:undefined, done:true});
+      expect(f.next()).toEqual({value: 1, done: false});
+      expect(f.next()).toEqual({value: 2, done: false});
+      expect(f.next()).toEqual({value: "ha", done: false});
+      expect(f.next()).toEqual({value: undefined, done: true});
     });
   });
 
-  describe("Template strings", function() {
-    it("should inject variables and execute functions in a string", function() {
+  describe("Template strings", function () {
+    it("should inject variables and execute functions in a string", function () {
       let user = {name: "Heaton", age: 18};
       expect(`My name is ${user.name}, I'm ${user.age} years old.`).toEqual("My name is Heaton, I'm 18 years old.");
       function add(a, b) {
         return a + b;
       }
+
       expect(`1+2=${add(1, 2)}`).toEqual("1+2=3");
     });
 
-    it("can be used in multiple lines", function() {
+    it("can be used in multiple lines", function () {
       expect(`Be careful!
       There is a bear`).toContain("\n");
     });
   });
 
-  describe("arguments", function() {
-    it("can be set by a default value", function() {
-      function increase(x, s=1) {
+  describe("arguments", function () {
+    it("can be set by a default value", function () {
+      function increase(x, s = 1) {
         return x + s;
       }
+
       expect(increase(1)).toBe(2);
       expect(increase(1, 2)).toBe(3);
     });
 
-    it("can be used as rest arguments", function() {
+    it("can be used as rest arguments", function () {
       function containsAll(haystack, ...needles) {
         for (let needle of needles) {
           if (haystack.indexOf(needle) === -1) {
@@ -119,23 +126,25 @@ describe("es6", function() {
         }
         return true;
       }
+
       expect(containsAll("heaton", "h", "ton")).toBeTruthy();
       expect(containsAll("heaton")).toBeTruthy();
       expect(containsAll("heaton", "b", "ton")).toBeFalsy();
     });
 
-    it("can be passed in a spread way", function() {
+    it("can be passed in a spread way", function () {
       function increase(x, y, z) {
         return x + y + z;
       }
-      let ar = [9, 8 ,7];
+
+      let ar = [9, 8, 7];
       expect(increase(...[1, 2, 3])).toBe(6);
       expect(increase(...ar)).toBe(24);
     });
   });
 
-  describe("Destructuring", function() {
-    it("should assign multiple variables from array in one time", function() {
+  describe("Destructuring", function () {
+    it("should assign multiple variables from array in one time", function () {
       let [x, [y], z] = [1, [2], 3];
       expect(x).toBe(1);
       expect(y).toBe(2);
@@ -145,10 +154,11 @@ describe("es6", function() {
       let [head, ...tail] = [1, 2, 3, 4];
       expect(head).toBe(1);
       expect(tail).toEqual([2, 3, 4]);
+      expect([head, ...tail]).toEqual([1, 2, 3, 4]);
     });
 
-    it("should assign multiple variables from an object in one time", function() {
-      var {foo, bar} = { foo: "lorem", bar: "ipsum" };
+    it("should assign multiple variables from an object in one time", function () {
+      var {foo, bar} = {foo: "lorem", bar: "ipsum"};
       expect(foo).toEqual("lorem");
       expect(bar).toEqual("ipsum");
     });
@@ -176,7 +186,7 @@ describe("es6", function() {
     });
   });
 
-  describe("Arrow Functions", function() {
+  describe("Arrow Functions", function () {
     it("should be a function", function () {
       let l = [1, 5, 10].filter(i => i > 2).map(i => i * 2);
       expect(l).toEqual([10, 20]);
@@ -201,7 +211,7 @@ describe("es6", function() {
       expect(typeof s).toBe("symbol");
       expect(s).not.toBe(Symbol());
     });
-    
+
     it("should create a symbol with a description", function () {
       let s = Symbol("hello");
       expect(s.toString()).toBe("Symbol(hello)");
@@ -230,7 +240,13 @@ describe("es6", function() {
       expect(s.size).toBe(2);
     });
   });
-  
+
+  describe("Object.assign", () => {
+    it("should extend a object", () => {
+      var heaton = Object.assign({name: "Heaton"}, {age: 29, sex: "m"});
+      expect(heaton).toEqual({name: "Heaton", age: 29, sex: "m"});
+    });
+  });
   // Babel does not support
   // describe("Proxy", function () {
   //   it("try", function () {
@@ -252,5 +268,5 @@ describe("es6", function() {
   //     expect(g).toBe(1);
   //   });
   // });
-  
+
 });
